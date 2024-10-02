@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from "react";
 import './App.css';
 
 function App() {
+  const [timeDifference, setTimeDifference] = useState(null);
+
+  const fixedDateTime = new Date("2002-12-31T15:45:00");
+
+  // Function to calculate the time difference
+  const calculateTimeDifference = () => {
+    const currentTime = new Date();
+    const diff = currentTime - fixedDateTime; // Difference in milliseconds
+
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+    const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    setTimeDifference({ years, days, hours, minutes, seconds });
+  };
+
+  useEffect(() => {
+    const interval = setInterval(calculateTimeDifference, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {timeDifference && (
+        <div>
+          <p>
+            {timeDifference.years} : {timeDifference.days} : {timeDifference.hours} : {timeDifference.minutes} : {timeDifference.seconds}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
