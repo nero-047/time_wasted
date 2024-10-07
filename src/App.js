@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [timeDifference, setTimeDifference] = useState(null);
 
-  const fixedDateTime = new Date("2002-12-31T15:45:00");
+  const fixedDateTime = new Date("2002-10-31T15:45:00");
 
   // Function to calculate the time difference
   const calculateTimeDifference = () => {
